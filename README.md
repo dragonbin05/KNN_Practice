@@ -11,6 +11,4 @@ streamlit run main.py
 ## KNN With Iris Data
 sklearn의 iris data를 이용한 knn의 가장 기본적인 예제
 
----
 ## KNN For Predicting BTC
----
