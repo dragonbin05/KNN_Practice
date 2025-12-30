@@ -148,7 +148,7 @@ def preprocess_btc_data(data, future_days=1):
 
     return data
 
-def knn(data):
+def run_knn(data):
     today_data = data.drop("target_up", axis=1).tail(1)
     data = data.dropna()
     x = data.drop("target_up", axis=1)
@@ -195,7 +195,7 @@ def knn(data):
 if __name__ == "__main__":
     st.write("# KNN For :red[BTC Prediction]")
     today = datetime.now()
-    st.write(f"Today: `{today.strftime('%Y-%m-%d %H:%M:%S')}`")
+    st.write(f"Now: `{today.strftime('%Y-%m-%d %H:%M:%S')}`")
 
     if "loaded" not in st.session_state:
         st.session_state["loaded"] = False
@@ -204,7 +204,7 @@ if __name__ == "__main__":
     if "future_days" not in st.session_state:
         st.session_state["future_days"] = 1
 
-    # 슬라이더는 항상 존재
+    # 며칠 뒤를 예측할지 선택
     future_days = st.slider(
         "Choose how many days in the future you want to predict",
         1, 30,
@@ -223,13 +223,14 @@ if __name__ == "__main__":
         )
         st.session_state["data"] = data
 
-        st.write("## Preprocessed Data")
-        st.write(data)
 
     # 상태가 유지되는 영역
     if st.session_state["loaded"]:
+        st.write("## Preprocessed Data")
+        st.write(st.session_state["data"])
+        
         try:
             st.write("## Run KNN for BTC Prediction")
-            knn(data)
+            run_knn(st.session_state["data"])
         except NameError:
             st.warning("Please load the data first!")
